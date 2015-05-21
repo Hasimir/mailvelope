@@ -384,9 +384,9 @@ define(function(require, exports, module) {
                          key.getEncryptionKeyPacket() === null)) {
           return;
         }
-        return key.primaryKey.getKeyId().toHex();
-      }).filter(function(keyid) {
-        return keyid;
+        return key.primaryKey.fingerprint;
+      }).filter(function(fingerprint) {
+        return fingerprint;
       });
       if (!result[emailAddr].length) {
         result[emailAddr] = false;

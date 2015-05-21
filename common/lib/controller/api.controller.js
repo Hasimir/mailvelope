@@ -38,13 +38,15 @@ define(function(require, exports, module) {
           }
           break;
         case 'query-valid-key':
-          var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true});
-          Object.keys(keyIdMap).forEach(function(email) {
-            if (keyIdMap[email]) {
-              keyIdMap[email] = {};
+          var keyMap = keyring.getById(request.keyringId).getKeyIdByAddress(request.recipients, {validity: true});
+          Object.keys(keyMap).forEach(function(email) {
+            var fingerprints = [];
+            if (keyMap[email].length) {
+              fingerprints = keyMap[email];
             }
+            keyMap[email] = { fingerprints: fingerprints };
           });
-          sendResponse({error: null, data: keyIdMap});
+          sendResponse({error: null, data: keyMap});
           break;
         case 'export-own-pub-key':
           var keyIdMap = keyring.getById(request.keyringId).getKeyIdByAddress([request.emailAddr], {validity: true, pub: false, priv: true});
